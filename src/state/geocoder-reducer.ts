@@ -28,6 +28,7 @@ const initialState = {
 }
 
 export const geocodeReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+
     switch (action.type) {
         case 'GET_CITY_COORDINATES':
             return {
@@ -55,9 +56,9 @@ export const getCityCoordinates = (country: string, city: string) => async (disp
         .GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse().map((el: string) => +el)
     const schools = (await getSchoolsApi(country + ' ' + city))
         .features.filter((s: any) => !s.properties.name.toLowerCase().match(value)).map((s: any) => ({
-            ...s,
-            coordinates: s.geometry.coordinates.reverse()
-        }))
+        ...s,
+        coordinates: s.geometry.coordinates.reverse()
+    }))
     dispatch(addCityCoordinates(cityCoordinates, schools))
 }
 

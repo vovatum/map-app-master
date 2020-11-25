@@ -6,12 +6,11 @@ type InputPropsType = {
     id: string
     value: string
     placeholder: string
-    redirectFunc: () => void
 }
 
 export const Input = React.memo(function (props: InputPropsType) {
     const dispatch = useDispatch()
-    let [name, setName] = useState('')
+    let [name, setName] = useState(props.value)
     let [error, setError] = useState<string | null>(null)
     const valError = () => {
         if (name.trim() !== '') {
@@ -32,7 +31,6 @@ export const Input = React.memo(function (props: InputPropsType) {
         } else {
             setError(null)
             delSpace()
-            // && props.redirectFunc()
         }
 
     }

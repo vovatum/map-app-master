@@ -2,9 +2,10 @@ import React from 'react';
 import '../App.css';
 import {Input} from "./Input";
 import {NavLink} from 'react-router-dom';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import {LocationType} from "../state/input-reducer";
+import {getCityCoordinates} from "../state/geocoder-reducer";
 
 type FormPropsType = {
     redirectFunc: () => void
@@ -13,6 +14,13 @@ type FormPropsType = {
 
 export const SearchForm = React.memo(function (props: FormPropsType) {
     const location = useSelector<AppRootStateType, Array<LocationType>>(state => state.inputData)
+    const dispatch = useDispatch()
+    const onSearch = () => {
+        const country = location[0].name
+        const city = location[1].name
+        dispatch(getCityCoordinates(country, city))
+        props.redirectFunc()
+    }
     return (
         <form className="formWrapper">
             <div className='formName'>Name</div>
@@ -23,7 +31,6 @@ export const SearchForm = React.memo(function (props: FormPropsType) {
                         key={item.id}
                         id={item.id}
                         value={item.name}
-                        redirectFunc={props.redirectFunc}
                         placeholder={'E' + `nter your ${item.id}`.toLowerCase()}
                     />
                 </div>
@@ -31,10 +38,11 @@ export const SearchForm = React.memo(function (props: FormPropsType) {
             <div>
                 <NavLink to='/yandexMap'>
                     <button className='btnFormSearch'
-                            onClick={props.redirectFunc}>Search
+                            onClick={onSearch}
+                    >Search
                     </button>
                 </NavLink>
-                {/*{props.doRedirectFunc()}*/}
+                {props.doRedirectFunc()}
             </div>
             <div/>
         </form>
