@@ -1,7 +1,7 @@
 import React from 'react';
 import {Map, Placemark, YMaps} from "react-yandex-maps";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from '../../state/store';
+import {AppRootStateType} from '../state/store';
 
 type PropsType = {}
 
