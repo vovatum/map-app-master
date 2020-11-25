@@ -12,8 +12,8 @@ export const MapPage = React.memo((props: PropsType) => {
     const schools = useSelector<AppRootStateType, Array<any>>(state => state.cityData.schools)
     return (
         <div>
-            <YMaps className="mapWrapper">
-                <div style={{height: '100vh', width: '100vh'}}>
+            <YMaps>
+                <div className="mapWrapper">
                     <Map state={{center: cityCoordinates, zoom: 12}} width={'100%'} height={'100vh'}>
                         {schools.map((school) => <Placemark geometry={school.geometry.coordinates} properties={{
                             iconCaption: school.properties.name,
