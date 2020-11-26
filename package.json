@@ -1,6 +1,5 @@
 {
   "name": "map-app",
-  "homepage": "https://lunatik752.github.io/map-app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
