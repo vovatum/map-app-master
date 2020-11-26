@@ -18,7 +18,7 @@ export const SearchForm = React.memo(function (props: FormPropsType) {
     const onSearch = () => {
         const country = location[0].name
         const city = location[1].name
-        !country || !city
+        country === '' && city === ''//geocode
             ? dispatch(getCityCoordinates('Belarus', 'Minsk'))
             : dispatch(getCityCoordinates(country, city))
         props.redirectFunc()
