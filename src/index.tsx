@@ -6,8 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {store} from './state/store';
 import {BrowserRouter} from "react-router-dom";
-import * as serviceWorker from "./serviceWorker";
-import swConfig from "./swConfig";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
 ReactDOM.render(
@@ -23,4 +22,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-serviceWorker.register(swConfig);
+serviceWorkerRegistration.register();
