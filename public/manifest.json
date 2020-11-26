@@ -2,8 +2,8 @@
     "theme_color": "#000000",
     "background_color": "#000000",
     "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
+    "scope": "/map-app-master/#/",
+    "start_url": "/map-app-master/#/",
     "app_name": "React Redux Yandex Map App",
     "short_name": "React Yandex Map",
     "icons": [
