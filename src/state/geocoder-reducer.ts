@@ -1,13 +1,18 @@
 import {getCoordinate} from "../api/geocoder-api";
 import {getSchoolsApi} from "../api/search-org-api";
+import React from "react";
 
+type PropertiesType = {
+    name: {} | null | undefined
+    description: React.ReactNode
+}
 type GeometryType = {
     coordinates: Array<number>
     type: string
 }
-type SchoolType = {
+export type SchoolType = {
     geometry: GeometryType
-    properties: any
+    properties: PropertiesType
     type: string
 }
 type InitialStateType = {
@@ -22,12 +27,15 @@ const initialState = {
             coordinates: [1, 2],
             type: ''
         },
-        properties: {},
+        properties: {
+            name: {},
+            description: null
+        },
         type: ''
     }]
 }
 
-export const geocodeReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+export const geocodeReducer = (state: InitialStateType = initialState, action: ActionType) => {
 
     switch (action.type) {
         case 'GET_CITY_COORDINATES':
@@ -56,9 +64,9 @@ export const getCityCoordinates = (country: string, city: string) => async (disp
         .GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse().map((el: string) => +el)
     const schools = (await getSchoolsApi(country + ' ' + city))
         .features.filter((s: any) => !s.properties.name.toLowerCase().match(value)).map((s: any) => ({
-        ...s,
-        coordinates: s.geometry.coordinates.reverse()
-    }))
+            ...s,
+            coordinates: s.geometry.coordinates.reverse()
+        }))
     dispatch(addCityCoordinates(cityCoordinates, schools))
 }
 

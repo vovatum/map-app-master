@@ -6,6 +6,8 @@ type InputPropsType = {
     id: string
     value: string
     placeholder: string
+    onChangeHandler: (id: string, value: string) => void
+    onKeyPressHandler: (id: string,key: string) => void
 }
 
 export const Input = React.memo(function (props: InputPropsType) {
@@ -22,17 +24,18 @@ export const Input = React.memo(function (props: InputPropsType) {
         }
     }
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(addLocationName(props.id, event.currentTarget.value))
+        props.onChangeHandler(props.id, event.currentTarget.value)
         setName(event.currentTarget.value)
     }
     const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' && error === null) {
-            valError()
-        } else {
-            setError(null)
-            delSpace()
-        }
+            if (event.key === 'Enter' && error === null) {
+                valError()
+                props.onKeyPressHandler(props.id, event.key)
 
+            } else {
+                setError(null)
+                delSpace()
+            }
     }
     const setErrorNull = () => {
         setError(null)

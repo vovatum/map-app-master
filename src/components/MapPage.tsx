@@ -3,24 +3,24 @@ import {Map, Placemark, YMaps} from "react-yandex-maps";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from '../state/store';
 import '../App.css'
-import SchoolList from "./SchoolList";
+import SchoolsList from "./SchoolsList";
+import {SchoolType} from "../state/geocoder-reducer";
 
-type PropsType = {}
-
-export const MapPage = React.memo((props: PropsType) => {
+export const MapPage = React.memo(() => {
 
     const cityCoordinates = useSelector<AppRootStateType, Array<number>>(state => state.cityData.cityCoordinates)
-    const schools = useSelector<AppRootStateType, Array<any>>(state => state.cityData.schools)
+    const schools = useSelector<AppRootStateType, Array<SchoolType>>(state => state.cityData.schools)
     const [view, setView] = useState('Map view')
     const modeView = () => view === 'Map view' ? setView('List view') : setView('Map view')
 
     return (
         <div>
-            <button onClick={modeView}>{view}</button>
+            <button onClick={modeView}>Change view</button>
             <YMaps>
                 <div className="mapWrapper">
                     {view === 'Map view' ?
-                        <Map state={{center: cityCoordinates, zoom: 12}} width={'100%'} height={'100vh'}
+                        <Map state={{center: cityCoordinates, zoom: 12}}
+                             width={'100%'} height={'100vh'}
                              modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
                         >
 
@@ -39,7 +39,7 @@ export const MapPage = React.memo((props: PropsType) => {
 
                                 />)}
                         </Map>
-                        : <SchoolList/>
+                        : <SchoolsList schools={schools}/>
                     }
                 </div>
             </YMaps>
