@@ -48,17 +48,27 @@ console.log(JSON.stringify(state))
                 cityCoordinates: action.cityCoordinates,
                 schools: action.schools
             }
+        case 'SET_CITY_COORDINATES':
+          return {
+            ...state,
+            cityCoordinates: action.cityCoordinates,
+          }
         default :
             return state;
     }
 }
 
-type ActionType = ReturnType<typeof addCityCoordinates>
+type ActionType = ReturnType<typeof addCityCoordinates> | ReturnType<typeof setCityCoordinates>
 
 export const addCityCoordinates = (cityCoordinates: Array<number>, schools: Array<any>) => ({
     type: 'GET_CITY_COORDINATES',
     cityCoordinates,
     schools
+} as const)
+
+export const setCityCoordinates = (cityCoordinates: Array<number>) => ({
+    type: 'SET_CITY_COORDINATES',
+    cityCoordinates,
 } as const)
 
 export const getCityCoordinates = (country: string, city: string) => async (dispatch: any) => {

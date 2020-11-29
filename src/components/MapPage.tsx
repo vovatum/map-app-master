@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Map, Placemark, YMaps} from "react-yandex-maps";
-import {useSelector} from "react-redux";
+import {ListBox, ListBoxItem, Map, Placemark, YMaps} from "react-yandex-maps";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from '../state/store';
 import '../App.css'
 import SchoolsList from "./SchoolsList";
-import {SchoolType} from "../state/geocoder-reducer";
+import {SchoolType, setCityCoordinates} from "../state/geocoder-reducer";
 
 export const MapPage = React.memo(() => {
 
@@ -12,8 +12,32 @@ export const MapPage = React.memo(() => {
     const schools = useSelector<AppRootStateType, Array<SchoolType>>(state => state.cityData.schools)
     const [view, setView] = useState('Map view')
     const modeView = () => view === 'Map view' ? setView('List view') : setView('Map view')
+    const dispatch = useDispatch()
 
-    return (
+  const cities = [
+    {
+      data: { content: 'Minsk' },
+      options: { selectOnClick: false },
+      coords: [53.902284, 27.561831],
+    },
+    {
+      data: { content: 'Kiev' },
+      options: { selectOnClick: false },
+      coords: [50.450441, 30.523550],
+    },
+    {
+      data: { content: 'Moscow' },
+      options: { selectOnClick: false },
+      coords: [55.753559, 37.609218],
+    },
+  ]
+
+  const onItemClick = (coords: any) => {
+    dispatch(setCityCoordinates(coords))
+  }
+
+
+  return (
         <div>
             <button onClick={modeView}>Change view</button>
             <YMaps>
@@ -23,6 +47,16 @@ export const MapPage = React.memo(() => {
                              width={'100%'} height={'100vh'}
                              modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
                         >
+                          <ListBox data={{ content: 'Choose city' }} options={{ float: 'left'}}>
+                            {cities.map(city =>
+                                <ListBoxItem
+                                    data={city.data}
+                                    options={city.options}
+                                    onClick={() => onItemClick(city.coords)}
+                                    key={city.data.content}
+                                />
+                            )}
+                          </ListBox>
 
                             {schools.map((school) =>
                                 <Placemark geometry={school.geometry.coordinates}
