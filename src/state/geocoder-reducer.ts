@@ -1,5 +1,4 @@
-import {getCoordinate} from "../api/geocoder-api";
-import {getSchoolsApi} from "../api/search-org-api";
+import * as API from "../api/geocoder-api";
 import React from "react";
 
 type PropertiesType = {
@@ -33,10 +32,10 @@ const initialState = {
             name: {},
             description: null,
             CompanyMetaData: {
-              id: '',
-              name: '',
-              address: '',
-              url: '',
+                id: '',
+                name: '',
+                address: '',
+                url: '',
             },
 
         },
@@ -46,7 +45,7 @@ const initialState = {
 
 export const geocodeReducer = (state: InitialStateType = initialState, action: ActionType) => {
 
-console.log(JSON.stringify(state))
+    console.log(JSON.stringify(state))
 
     switch (action.type) {
         case 'GET_CITY_COORDINATES':
@@ -56,10 +55,10 @@ console.log(JSON.stringify(state))
                 schools: action.schools
             }
         case 'SET_CITY_COORDINATES':
-          return {
-            ...state,
-            cityCoordinates: action.cityCoordinates,
-          }
+            return {
+                ...state,
+                cityCoordinates: action.cityCoordinates,
+            }
         default :
             return state;
     }
@@ -77,8 +76,8 @@ export const setCityCoordinates = (cityCoordinates: Array<number>) => ({
 } as const)
 
 export const getCityCoordinates = (country: string, city: string) => async (dispatch: any) => {
-    const cityCoordinates = (await getCoordinate(country + ' ' + city))
-    const schools = (await getSchoolsApi(country + ' ' + city))
+    const cityCoordinates = await API.getCoordinate(country + ' ' + city)
+    const schools = await API.getSchoolsApi(country + ' ' + city)
     dispatch(addCityCoordinates(cityCoordinates, schools))
 }
 
