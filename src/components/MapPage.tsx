@@ -66,7 +66,7 @@ export const MapPage = React.memo(() => {
                                                balloonContentBody:   `<address>
                                                                      ${school.properties.CompanyMetaData.address}
                                                                      <br/>
-                                                                    ${school.properties.CompanyMetaData.url ? `Подробнее: <a href="${school.properties.CompanyMetaData.url}">${school.properties.CompanyMetaData.url}</a>` : ""}
+                                                                     ${school.properties.CompanyMetaData.url ? `Подробнее: <a href="${school.properties.CompanyMetaData.url}">${school.properties.CompanyMetaData.url}</a>` : ""}
                                                                      </address>`,
                                                hintContent: school.properties.name
 
