@@ -19,9 +19,9 @@ export const MapPage = React.memo(() => {
             <YMaps>
                 <div className="mapWrapper">
                     {view === 'Map view' ?
-                        <Map state={{center: cityCoordinates, zoom: 12}}
+                        <Map state={{center: cityCoordinates, zoom: 12, controls: ['zoomControl', 'fullscreenControl']}}
                              width={'100%'} height={'100vh'}
-                             modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+                             modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
                         >
 
                             {schools.map((school) =>

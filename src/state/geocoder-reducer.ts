@@ -20,6 +20,8 @@ type InitialStateType = {
     schools: Array<SchoolType>
 }
 
+debugger
+
 const initialState = {
     cityCoordinates: [53.90, 27.56],
     schools: [{
@@ -36,6 +38,8 @@ const initialState = {
 }
 
 export const geocodeReducer = (state: InitialStateType = initialState, action: ActionType) => {
+
+console.log(JSON.stringify(state))
 
     switch (action.type) {
         case 'GET_CITY_COORDINATES':
