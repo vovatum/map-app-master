@@ -63,8 +63,13 @@ export const MapPage = React.memo(() => {
                                            properties={{
                                                iconCaption: school.properties.name,
                                                balloonContentHeader: school.properties.name,
-                                               balloonContentBody: school.properties.description,
+                                               balloonContentBody:   `<address>
+                                                                     ${school.properties.CompanyMetaData.address}
+                                                                     <br/>
+                                                                    ${school.properties.CompanyMetaData.url ? `Подробнее: <a href="${school.properties.CompanyMetaData.url}">${school.properties.CompanyMetaData.url}</a>` : ""}
+                                                                     </address>`,
                                                hintContent: school.properties.name
+
                                            }}
                                            options={{
                                                preset: "islands#blueLeisureIcon",

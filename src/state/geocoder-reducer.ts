@@ -5,6 +5,7 @@ import React from "react";
 type PropertiesType = {
     name: {} | null | undefined
     description: React.ReactNode
+    CompanyMetaData: any;
 }
 type GeometryType = {
     coordinates: Array<number>
@@ -20,8 +21,6 @@ type InitialStateType = {
     schools: Array<SchoolType>
 }
 
-debugger
-
 const initialState = {
     cityCoordinates: [53.90, 27.56],
     schools: [{
@@ -31,7 +30,14 @@ const initialState = {
         },
         properties: {
             name: {},
-            description: null
+            description: null,
+            CompanyMetaData: {
+              id: '',
+              name: '',
+              address: '',
+              url: '',
+            },
+
         },
         type: ''
     }]
@@ -81,6 +87,7 @@ export const getCityCoordinates = (country: string, city: string) => async (disp
             ...s,
             coordinates: s.geometry.coordinates.reverse()
         }))
+  console.log(schools)
     dispatch(addCityCoordinates(cityCoordinates, schools))
 }
 
