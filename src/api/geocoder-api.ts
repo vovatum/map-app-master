@@ -7,5 +7,6 @@ const apikey = "cf257613-388c-495a-989f-98c40a840056"
 
 export const getCoordinate = async (requestText: string) => {
     return (await instance.get(`?format=json&geocode=${requestText}&apikey=${apikey}`))
-        .data.response
+        .data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse().map((el: string) => +el)
+
 }

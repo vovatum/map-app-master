@@ -20,6 +20,7 @@ type InitialStateType = {
     cityCoordinates: Array<number>,
     schools: Array<SchoolType>
 }
+type ActionType = ReturnType<typeof addCityCoordinates> | ReturnType<typeof setCityCoordinates>
 
 const initialState = {
     cityCoordinates: [53.90, 27.56],
@@ -64,8 +65,6 @@ console.log(JSON.stringify(state))
     }
 }
 
-type ActionType = ReturnType<typeof addCityCoordinates> | ReturnType<typeof setCityCoordinates>
-
 export const addCityCoordinates = (cityCoordinates: Array<number>, schools: Array<any>) => ({
     type: 'GET_CITY_COORDINATES',
     cityCoordinates,
@@ -78,16 +77,8 @@ export const setCityCoordinates = (cityCoordinates: Array<number>) => ({
 } as const)
 
 export const getCityCoordinates = (country: string, city: string) => async (dispatch: any) => {
-    const arr = ['средняя', 'гимназия']
-    const value = new RegExp(arr.join('|'), 'i')
     const cityCoordinates = (await getCoordinate(country + ' ' + city))
-        .GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse().map((el: string) => +el)
     const schools = (await getSchoolsApi(country + ' ' + city))
-        .features.filter((s: any) => !s.properties.name.toLowerCase().match(value)).map((s: any) => ({
-            ...s,
-            coordinates: s.geometry.coordinates.reverse()
-        }))
-  console.log(schools)
     dispatch(addCityCoordinates(cityCoordinates, schools))
 }
 
