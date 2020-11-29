@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import '../App.css';
 import {Input} from "./Input";
 import {NavLink} from 'react-router-dom';

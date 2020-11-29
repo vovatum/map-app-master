@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from '../state/store';
 import '../App.css'
 import SchoolsList from "./SchoolsList";
-import {SchoolType, setCityCoordinates} from "../state/geocoder-reducer";
+import {getCityCoordinates, SchoolType, setCityCoordinates} from "../state/geocoder-reducer";
 
 export const MapPage = React.memo(() => {
 
@@ -14,30 +14,30 @@ export const MapPage = React.memo(() => {
     const modeView = () => view === 'Map view' ? setView('List view') : setView('Map view')
     const dispatch = useDispatch()
 
-  const cities = [
-    {
-      data: { content: 'Minsk' },
-      options: { selectOnClick: false },
-      coords: [53.902284, 27.561831],
-    },
-    {
-      data: { content: 'Kiev' },
-      options: { selectOnClick: false },
-      coords: [50.450441, 30.523550],
-    },
-    {
-      data: { content: 'Moscow' },
-      options: { selectOnClick: false },
-      coords: [55.753559, 37.609218],
-    },
-  ]
+    const cities = [
+        {
+            data: {content: 'Minsk'},
+            options: {selectOnClick: false},
+            coords: [53.902284, 27.561831],
+        },
+        {
+            data: {content: 'Kiev'},
+            options: {selectOnClick: false},
+            coords: [50.450441, 30.523550],
+        },
+        {
+            data: {content: 'Moscow'},
+            options: {selectOnClick: false},
+            coords: [55.753559, 37.609218],
+        },
+    ]
 
-  const onItemClick = (coords: any) => {
-    dispatch(setCityCoordinates(coords))
-  }
+    const onItemClick = (coords: any, city: string) => {
+        dispatch(setCityCoordinates(coords))
+        dispatch(getCityCoordinates('', city))
+    }
 
-
-  return (
+    return (
         <div>
             <button onClick={modeView}>Change view</button>
             <YMaps>
@@ -47,23 +47,23 @@ export const MapPage = React.memo(() => {
                              width={'100%'} height={'100vh'}
                              modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
                         >
-                          <ListBox data={{ content: 'Choose city' }} options={{ float: 'left'}}>
-                            {cities.map(city =>
-                                <ListBoxItem
-                                    data={city.data}
-                                    options={city.options}
-                                    onClick={() => onItemClick(city.coords)}
-                                    key={city.data.content}
-                                />
-                            )}
-                          </ListBox>
+                            <ListBox data={{content: 'Choose city'}} options={{float: 'left'}}>
+                                {cities.map(city =>
+                                    <ListBoxItem
+                                        data={city.data}
+                                        options={city.options}
+                                        onClick={() => onItemClick(city.coords, city.data.content)}
+                                        key={city.data.content}
+                                    />
+                                )}
+                            </ListBox>
 
                             {schools.map((school) =>
                                 <Placemark geometry={school.geometry.coordinates}
                                            properties={{
                                                iconCaption: school.properties.name,
                                                balloonContentHeader: school.properties.name,
-                                               balloonContentBody:   `<address>
+                                               balloonContentBody: `<address>
                                                                      ${school.properties.CompanyMetaData.address}
                                                                      <br/>
                                                                      ${school.properties.CompanyMetaData.url ? `Подробнее: <a href="${school.properties.CompanyMetaData.url}">${school.properties.CompanyMetaData.url}</a>` : ""}
